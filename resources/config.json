@@ -1,0 +1,21 @@
+{
+  "APP": {
+    "WIDTH": 500,
+    "HEIGHT": 200,
+    "TITLE": "ConvertPDF",
+    "ICON": {
+      "TITLE": "resources/appicon.ico",
+      "UPLOADBUTTON": "resources/convert.png"
+    },
+    "SOUNDS": true
+  },
+  "LANG": "resources/lang_en.json",
+  "REMEMBER_LAST_FOLDER": true,
+  "SAVE_LAST_SESSION": true,
+  "LAST_SESSION_FILE": "resources/session.json",
+  "CONSOLE": {
+    "LIMIT_MESSAGES_CONSOLE": 1000,
+    "MSG_FORMAT": "[{0}] {1}"
+  },
+  "AUTO_START": false
+}
