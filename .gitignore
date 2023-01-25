@@ -1,6 +1,6 @@
-__pycache__
-build
-dist
-.idea
-.vscode
+__pycache__/
+.idea/
+.vscode/
 *.pyc
+build/
+dist/
