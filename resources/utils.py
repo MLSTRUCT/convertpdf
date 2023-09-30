@@ -4,15 +4,19 @@ UTILS
 Author: Pablo Pizarro R. @ ppizarror.com
 """
 
-# Library imports
+__all__ = ['Cd', 'get_local_path']
+
 import os
+from pathlib import Path
 
 # Constants
 CREATE_NO_WINDOW = 0x08000000
 
 
 class Cd(object):
-    """Context manager for changing the current working directory."""
+    """
+    Context manager for changing the current working directory.
+    """
 
     def __init__(self, new_path):
         self.newPath = os.path.expanduser(new_path)
@@ -25,34 +29,32 @@ class Cd(object):
         os.chdir(self.savedPath)
 
 
-def is_windows():
+def get_user_path() -> str:
     """
-    Función que retorna True/False si el sistema operativo cliente es Windows o no.
-
-    :return: Boolean
+    :return: Returns the user path
     """
-    if os.name == 'nt':
-        return True
-    return False
+    return os.path.expanduser('~')
 
 
-def is_linux():
+def get_local_path() -> str:
     """
-    Función que retorna True/False si el sistema operativo cliente es Linux o no.
-
-    :return: Boolean
+    :return: Returns the app local path
     """
-    if os.name == 'posix':
-        return True
-    return False
+    appdata = os.getenv('LOCALAPPDATA')
+    if appdata is None:
+        appdata = os.path.join(get_user_path(), 'Applications')
+
+    path = os.path.join(appdata, 'MLSTRUCT.convertpdf')
+    return make_path_if_not_exists(path)
 
 
-def is_osx():
+def make_path_if_not_exists(path: str) -> str:
     """
-    Función que retorna True/False si el sistema operativo cliente es OSX.
+    Create the path if not exists.
 
-    :return: Boolean
+    :param path: Path
+    :return: Path
     """
-    if os.name == 'darwin':
-        return True
-    return False
+    if not os.path.isdir(path):
+        Path(path).mkdir(parents=True, exist_ok=True)
+    return path

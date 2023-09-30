@@ -1,8 +1,8 @@
 {
   "APP": {
-    "WIDTH": 500,
-    "HEIGHT": 200,
-    "TITLE": "ConvertPDF",
+    "WIDTH": 640,
+    "HEIGHT": 270,
+    "TITLE": "ConvertPDF v{0}",
     "ICON": {
       "TITLE": "resources/appicon.ico",
       "UPLOADBUTTON": "resources/convert.png"
