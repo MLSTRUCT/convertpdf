@@ -5,27 +5,11 @@ SETTINGS
 Author: Pablo Pizarro R. @ ppizarror.com
 """
 
-# Import libraries
+__all__ = ['SettingsDialog']
+
 import os
+import tkinter.messagebox
 from tkinter import *
-
-
-def is_linux():
-    if os.name == 'posix':
-        return True
-    return False
-
-
-def is_osx():
-    if os.name == 'darwin':
-        return True
-    return False
-
-
-def is_windows():
-    if os.name == 'nt':
-        return True
-    return False
 
 
 def is_number(s):
@@ -45,11 +29,11 @@ def is_number(s):
 
 
 # Constants
-if is_windows():
+if os.name == 'nt':  # Windows
     DEFAULT_FONT_TITLE = 'Arial', 10
-elif is_osx():
+elif os.name == 'darwin':  # OSX
     DEFAULT_FONT_TITLE = 'Arial', 15
-elif is_linux():
+elif os.name == 'posix':  # Linux
     DEFAULT_FONT_TITLE = 'Arial', 9
 else:
     DEFAULT_FONT_TITLE = 'Arial', 10
@@ -92,18 +76,9 @@ class SettingsDialog(object):
         except:
             pass
         self.sent = False
-        Label(self.w, text="", height=1).pack()
+        Label(self.w, text='', height=1).pack()
 
         if type_object == 'basic_settings':
-            # Density
-            f = Frame(self.w, border=3)
-            f.pack()
-            Label(f, text=self.lang['SETTINGS_DENSITY'], width=23, anchor=E).pack(side=LEFT)
-            self.density = Entry(f, relief=GROOVE, width=24)
-            self.density.insert(END, inputs['DENSITY'])
-            self.density.pack(side=LEFT, padx=5)
-            self.density.focus_force()
-
             # Max width
             f = Frame(self.w, border=3)
             f.pack()
@@ -120,41 +95,39 @@ class SettingsDialog(object):
             self.angle.insert(END, inputs['ANGLE'])
             self.angle.pack(side=LEFT, padx=5)
 
-            Label(self.w, text="", height=1).pack()
+            Label(self.w, text='', height=1).pack()
             Button(self.w, text=self.lang['SAVE_SETTINGS'], relief=GROOVE, command=self.send).pack()
-            self.w.bind("<Escape>", self.destroy)
+            self.w.bind('<Escape>', self.destroy)
 
-    def send(self):
+    def send(self) -> None:
         """
         Send the configs back to the app, then store them.
-        :return:
         """
         del_matrix(self.values)
-        a = self.density.get().strip()
-        b = self.maxwidth.get().strip()
-        c = self.angle.get().strip()
-        if is_number(a) and is_number(b) and is_number(c):
-            self.values.append(a)
-            self.values.append(b)
-            self.values.append(c)
+        max_width = self.maxwidth.get().strip()
+        angle = self.angle.get().strip()
+        if is_number(max_width) and is_number(max_width) and is_number(angle):
+            sz_min, sz_max = 1920, 12500
+            if not sz_min <= int(max_width) <= sz_max:
+                tkinter.messagebox.showwarning(self.lang['SETTINGS_MAX_WIDTH_ERROR_CONTENT'], self.lang['SETTINGS_MAX_WIDTH_ERROR_CONTENT'].format(sz_min, sz_max))
+                return
+            self.values.append(max_width)
+            self.values.append(angle)
             self.sent = True
             self.destroy()
 
     # noinspection PyUnusedLocal
-    def destroy(self, e=None):
+    def destroy(self, e=None) -> None:
         """
         Destroy window via event, sends data.
 
-        :param e: Evento
-        :return: void
+        :param e: Event
         """
         self.w.destroy()
 
-    def kill(self):
+    def kill(self) -> None:
         """
         Destroy the window without sending data.
-
-        :return: void
         """
         self.sent = False
         self.w.destroy()

@@ -4,6 +4,8 @@ VFRAME
 Author: Pablo Pizarro R. @ ppizarror.com
 """
 
+__all__ = ['VerticalScrolledFrame']
+
 # noinspection PyCompatibility
 from tkinter import Frame, Scrollbar, Canvas, NW, BOTH, TRUE, LEFT, RIGHT, VERTICAL, FALSE, Y
 
@@ -33,7 +35,7 @@ class VerticalScrolledFrame(Frame):
         def _configure_interior(event):
             size = (interior.winfo_reqwidth(), interior.winfo_reqheight())
             # noinspection PyTypeChecker
-            canvas.config(scrollregion="0 0 %s %s" % size)
+            canvas.config(scrollregion='0 0 %s %s' % size)
             if interior.winfo_reqwidth() != canvas.winfo_width():
                 canvas.config(width=interior.winfo_reqwidth())
 
