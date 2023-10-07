@@ -5,6 +5,8 @@
   "CONVERSION_ANGLE": "Rotating image -angle {0} DEG",
   "CONVERSION_CONV": "Converting to png -density {0}",
   "CONVERSION_FINISHED": "Process finished",
+  "ERROR": "Error",
+  "ERROR_CLOSE_SETTINGS": "Settings window is still open. Close it first to convert new pdf",
   "LOAD_CANCELLED": "Process cancelled",
   "LOAD_FAILED": "[ERROR] pdf file is not valid",
   "LOAD_FILE_BUTTON": "Load file",

@@ -99,6 +99,12 @@ class SettingsDialog(object):
             Button(self.w, text=self.lang['SAVE_SETTINGS'], relief=GROOVE, command=self.send).pack()
             self.w.bind('<Escape>', self.destroy)
 
+    def focus(self) -> None:
+        """
+        Focus window.
+        """
+        self.w.focus_force()
+
     def send(self) -> None:
         """
         Send the configs back to the app, then store them.

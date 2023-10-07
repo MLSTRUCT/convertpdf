@@ -16,6 +16,7 @@ import json
 import math
 import subprocess
 import time
+import tkinter.messagebox
 from tkinter.filedialog import askopenfilename
 import traceback
 from tkinter import *
@@ -23,7 +24,7 @@ from tkinter import font
 from resources.utils import Cd, get_local_path
 from resources.vframe import VerticalScrolledFrame
 from settings import SettingsDialog
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Optional
 import shutil
 import os
 
@@ -38,7 +39,7 @@ except:
     WSOUND_MODULE = False
 
 # Constants
-VERSION = '2.1'
+VERSION = '2.2'
 
 
 # noinspection PyUnusedLocal,PyBroadException,PyTypeChecker
@@ -46,6 +47,7 @@ class App(object):
     """
     Main Application
     """
+    _settings: Optional['SettingsDialog']
 
     def __init__(self):
         """
@@ -168,6 +170,7 @@ class App(object):
         self._info.pack(anchor=NW, fill=BOTH)
         self._console = []
         self._cnextnl = False
+        self._settings = None  # Opened
         _about()
 
         # Other variables
@@ -223,6 +226,8 @@ class App(object):
         """
         Load a file pdf to convert to png.
         """
+        if not self._check_settings_closed:
+            return
         self._print(self._lang['LOAD_WAITING_USER'], end='', hour=True)
         if self._config['REMEMBER_LAST_FOLDER'] and self._lastfolder != '':
             filename = askopenfilename(
@@ -315,18 +320,21 @@ class App(object):
         """
         Request settings of conversion.
         """
+        if self._settings is not None:
+            return self._settings.focus()
         self._print(self._lang['REQUESTING_SETTINGS'], end='', hour=True)
-        settings = SettingsDialog(
+        self._settings = SettingsDialog(
             [self._lang, os.path.join(_actualpath, 'resources/settings.ico'), 'basic_settings', [420, 165],
              self._conversion])
-        settings.w.mainloop(1)
-        if settings.sent:
+        self._settings.w.mainloop(1)
+        if self._settings.sent:
             self._print(self._lang['PROCESS_OK'], hour=True)
-            self._conversion['MAXWIDTH'] = int(settings.values[0])
+            self._conversion['MAXWIDTH'] = int(self._settings.values[0])
             # noinspection PyTypeChecker,PyTypedDict
-            self._conversion['ANGLE'] = float(settings.values[1])
+            self._conversion['ANGLE'] = float(self._settings.values[1])
         else:
             self._print(self._lang['PROCESS_CANCEL'], hour=True)
+        self._settings = None
 
     def run(self) -> None:
         """
@@ -346,10 +354,25 @@ class App(object):
                 }
                 json.dump(session, outfile)
 
+    @property
+    def _check_settings_closed(self) -> bool:
+        """
+        Check if the settings window is closed.
+
+        :returns: True if closed
+        """
+        if self._settings is not None:
+            tkinter.messagebox.showerror(self._lang['ERROR'], self._lang['ERROR_CLOSE_SETTINGS'])
+            self._settings.focus()
+            return False
+        return True
+
     def upload(self) -> None:
         """
         Convert the image.
         """
+        if not self._check_settings_closed:
+            return
 
         def _callback():
             try:
