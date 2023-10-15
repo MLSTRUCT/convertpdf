@@ -392,7 +392,7 @@ class App(object):
                             raise ValueError(self._lang['CONVERSION_ALREADY_EXISTS'].format(final_image))
 
                         # First, retrieve the pdf size
-                        wh = subprocess.check_output(['magick', 'identify', '-verbose', self._lastloadedfile]).decode('utf-8')
+                        wh = subprocess.check_output(['magick', 'identify', '-verbose', self._lastloadedfile], shell=True).decode('utf-8')
                         wh = wh.split('Print size: ')
                         if len(wh) != 2:
                             raise ValueError('Invalid PDF. Print size not allowed')
