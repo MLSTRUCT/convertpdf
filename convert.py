@@ -39,7 +39,7 @@ except:
     WSOUND_MODULE = False
 
 # Constants
-VERSION = '2.2'
+VERSION = '2.3'
 
 
 # noinspection PyUnusedLocal,PyBroadException,PyTypeChecker
@@ -420,6 +420,7 @@ class App(object):
                             os.remove(final_image)
                         shutil.move(current_image, final_image)
                         self._print(self._lang['CONVERSION_FINISHED'], hour=True)
+                        self._root.focus_force()
 
                 self.save_last_session()
                 self._clearstatus()
