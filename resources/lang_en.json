@@ -1,6 +1,6 @@
 {
   "ABOUT_APPTITLE": "CONVERTPDF v{0}",
-  "ABOUT_AUTHOR": "Author: Pablo Pizarro R. @ ppizarror",
+  "ABOUT_AUTHOR": "Author: Pablo Pizarro R. @ppizarror",
   "CONVERSION_ALREADY_EXISTS": "Converted image with same name '{0}' already exists in path",
   "CONVERSION_ANGLE": "Rotating image -angle {0} DEG",
   "CONVERSION_CONV": "Converting {0} to png -density {1} -width {2} px",
