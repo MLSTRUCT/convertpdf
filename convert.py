@@ -165,7 +165,7 @@ class App(object):
         self._info_slider.canv.config(bg='#000000')
         self._info_slider.pack(pady=2, anchor=NE, fill=BOTH, padx=1)
         self._info = Label(self._info_slider.interior, text='', justify=LEFT, anchor=NW,
-                           bg='black', fg='white', wraplength=self._config['APP']['WIDTH'],
+                           bg='black', fg='white', wraplength=self._config['APP']['WIDTH'] - 20,  # Discount slider
                            font=font.Font(family='Courier', size=9), relief=FLAT, border=2, cursor='arrow')
         self._info.pack(anchor=NW, fill=BOTH)
         self._console = []
@@ -402,7 +402,7 @@ class App(object):
                         density = math.ceil(abs(self._conversion['MAXWIDTH'] / max(float(wh[0]), float(wh[1]))))
 
                         # Convert from pdf to png
-                        self._print(self._lang['CONVERSION_CONV'].format(density), hour=True)
+                        self._print(self._lang['CONVERSION_CONV'].format(self._lastloadedfile, density, self._conversion['MAXWIDTH']), hour=True)
                         subprocess.call(['magick', '-density', str(density),
                                          self._lastloadedfile, current_image], shell=True)
 
