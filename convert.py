@@ -376,7 +376,7 @@ class App(object):
 
         def _callback():
             try:
-                t = time.time()
+                t0 = time.time()
                 with open(os.devnull, 'w') as FNULL:
                     with Cd(self._lastfolder):
                         current_image = os.path.join(get_local_path(), '__convert__.png')  # Remove if exist
@@ -419,7 +419,7 @@ class App(object):
                         if os.path.isfile(final_image):
                             os.remove(final_image)
                         shutil.move(current_image, final_image)
-                        self._print(self._lang['CONVERSION_FINISHED'], hour=True)
+                        self._print(self._lang['CONVERSION_FINISHED'].format(round(time.time() - t0, 1)), hour=True)
                         self._root.focus_force()
 
                 self.save_last_session()
