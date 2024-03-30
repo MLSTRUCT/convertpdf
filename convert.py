@@ -392,7 +392,8 @@ class App(object):
                             raise ValueError(self._lang['CONVERSION_ALREADY_EXISTS'].format(final_image))
 
                         # First, retrieve the pdf size
-                        wh = subprocess.check_output(['magick', 'identify', '-verbose', self._lastloadedfile], shell=True).decode('utf-8')
+                        wh = subprocess.check_output(['magick', 'identify', '-verbose', self._lastloadedfile],
+                                                     shell=True).decode('utf-8')
                         wh = wh.split('Print size: ')
                         if len(wh) != 2:
                             raise ValueError('Invalid PDF. Print size not allowed')
@@ -402,9 +403,10 @@ class App(object):
                         density = math.ceil(abs(self._conversion['MAXWIDTH'] / max(float(wh[0]), float(wh[1]))))
 
                         # Convert from pdf to png
-                        self._print(self._lang['CONVERSION_CONV'].format(self._lastloadedfile, density, self._conversion['MAXWIDTH']), hour=True)
-                        subprocess.call(['magick', '-density', str(density),
-                                         self._lastloadedfile, current_image], shell=True)
+                        self._print(self._lang['CONVERSION_CONV'].format(self._lastloadedfile, density,
+                                                                         self._conversion['MAXWIDTH']), hour=True)
+                        subprocess.call(['magick', '-density', str(density), self._lastloadedfile, current_image],
+                                        shell=True)
 
                         # Apply angle
                         angle = self._conversion['ANGLE']
