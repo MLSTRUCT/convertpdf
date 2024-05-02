@@ -39,7 +39,7 @@ except:
     WSOUND_MODULE = False
 
 # Constants
-VERSION = '2.3'
+VERSION = '2.4'
 
 
 # noinspection PyUnusedLocal,PyBroadException,PyTypeChecker
@@ -412,8 +412,8 @@ class App(object):
                         angle = self._conversion['ANGLE']
                         if angle != 0:
                             self._print(self._lang['CONVERSION_ANGLE'].format(angle), hour=True)
-                            rotated_image = os.path.join(get_local_path(), '__2convert__.png')
-                            subprocess.call(['magick', current_image, '-rotate', angle, rotated_image], shell=True)
+                            rotated_image = os.path.join(get_local_path(), '__convertrot__.png')
+                            subprocess.call(['magick', current_image, '-rotate', str(angle), rotated_image], shell=True)
                             os.remove(current_image)
                             current_image = rotated_image
 
