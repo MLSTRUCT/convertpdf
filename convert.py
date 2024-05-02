@@ -9,7 +9,7 @@ Requires:
 Author: Pablo Pizarro R. @ppizarror.com
 """
 
-__all__ = ['App']
+__all__ = ['App', 'VERSION']
 
 import ctypes
 import json

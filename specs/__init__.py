@@ -39,42 +39,9 @@ app_name = 'ConvertPDF'
 app_icon = '../resources/appicon.ico'
 block_cipher = None
 
-excluded_binaries = [
-    'brotli._brotli',
-    'cryptography.hazmat.bindings._rust',
-    'libc++.1.dylib',
-    'libiconv.2.dylib',
-    'libicudata.68.dylib',
-    'libicuuc.68.dylib',
-    'libncurses.6.dylib',
-    'libomp.dylib',
-    'libreadline.8.dylib',
-    'libtinfo.6.dylib',
-    'libtinfow.6.dylib',
-    'libxml2.2.dylib',
-    'libzmq.5.dylib',
-    'yaml._yaml'
-]
-excluded_binaries_contains = [
-    # 'lib-dynload',
-    'lxml',
-    'markupsafe',
-    f'miktex{sep}bin',
-    'pandas',
-    'pygame',
-    # 'sklearn',
-    'Windows Performance Toolkit',
-    f'zmq{sep}backend{sep}cython'
-]
-excluded_modules = [
-    'IPython',
-    'matplotlib',
-    'notebook',
-    'numpy',
-    'PIL',
-    'PyQt5',
-    'scipy'
-]
+excluded_binaries = []
+excluded_binaries_contains = ['api-ms-win-']
+excluded_modules = []
 
 
 def _file_sz(f: str) -> str:
@@ -133,7 +100,7 @@ def get_analysis(analysis, toc):
     for i in a.binaries:
         ex_contains = False
         for j in excluded_binaries_contains:
-            if j + sep in i[1]:
+            if j in i[1]:
                 ex_contains = True
                 break
         if 'sklearn' in i[0] and i[0] != 'sklearn.__check_build._check_build':
@@ -264,6 +231,7 @@ def save_zip(filename, output, in_folder='dist', out_folder='dist/out_zip'):
             zipf.write(filename_full, arcname=filename)
 
 
+# noinspection PyTypeChecker
 def zipdir(path, ziph):
     """
     Zip a folder.
